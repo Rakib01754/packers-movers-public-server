@@ -43,6 +43,15 @@ async function run() {
             const review = req.body;
             const result = await reviewCollection.insertOne(review);
             res.send(result)
+        });
+        // get reviews data based on id 
+        app.get('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { serviceId: id }
+            const cursor = reviewCollection.find(query).sort({ time: -1 })
+            const filteredReviews = await cursor.toArray();
+            res.send(filteredReviews)
+
         })
 
     } finally {
