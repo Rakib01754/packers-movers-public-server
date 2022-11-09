@@ -19,7 +19,7 @@ async function run() {
         // get limited data for homepage 
         app.get('/servicessample', async (req, res) => {
             const query = {}
-            const cursor = serviceCollection.find(query).limit(3)
+            const cursor = serviceCollection.find(query).limit(3).sort({ _id: -1 })
             const servicesData = await cursor.toArray()
             res.send(servicesData)
         });
@@ -79,12 +79,18 @@ async function run() {
             res.send(updatedData)
         });
         // load specific data for edit 
-
         app.get('/myreviews/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const filteredData = await reviewCollection.findOne(query);
             res.send(filteredData)
+        })
+        // insert data on service collection
+        app.post('/addservice', async (req, res) => {
+            const service = req.body;
+            const result = await serviceCollection.insertOne(service);
+            console.log(result)
+            res.send(result)
         })
 
     } finally {
