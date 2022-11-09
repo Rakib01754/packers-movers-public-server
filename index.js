@@ -70,6 +70,21 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const deletedReview = await reviewCollection.deleteOne(query);
             res.send(deletedReview)
+        });
+        // edit data by filtering 
+        app.put('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedData = await reviewCollection.updateOne({ _id: ObjectId(id) }, { $set: req.body })
+            console.log(updatedData)
+            res.send(updatedData)
+        });
+        // load specific data for edit 
+
+        app.get('/myreviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const filteredData = await reviewCollection.findOne(query);
+            res.send(filteredData)
         })
 
     } finally {
