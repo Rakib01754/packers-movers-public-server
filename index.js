@@ -64,16 +64,13 @@ async function run() {
             const reviews = await cursor.toArray();
             res.send(reviews);
         });
-        //এখন আমরা আইডি দিয়ে কুয়েরি করে ডাটা ডিলেট করবো
-
-        //     app.delete('/orders/:id', async (req, res) => {
-        //         const id = req.params.id;
-        //         const query = { _id: ObjectId(id) }
-        //         const deletedItem = await orderCollection.deleteOne(query)
-        //         res.send(deletedItem)
-        //     })
-
-        // }
+        //  deltete  reviews by id query
+        app.delete('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const deletedReview = await reviewCollection.deleteOne(query);
+            res.send(deletedReview)
+        })
 
     } finally {
         //   await client.close();
