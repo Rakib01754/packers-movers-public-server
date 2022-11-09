@@ -52,7 +52,28 @@ async function run() {
             const filteredReviews = await cursor.toArray();
             res.send(filteredReviews)
 
-        })
+        });
+
+        // get reviews data based on email address 
+        app.get('/reviews', async (req, res) => {
+            let query = {}
+            if (req.query.email) {
+                query = { email: req.query.email }
+            }
+            const cursor = reviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
+        //এখন আমরা আইডি দিয়ে কুয়েরি করে ডাটা ডিলেট করবো
+
+        //     app.delete('/orders/:id', async (req, res) => {
+        //         const id = req.params.id;
+        //         const query = { _id: ObjectId(id) }
+        //         const deletedItem = await orderCollection.deleteOne(query)
+        //         res.send(deletedItem)
+        //     })
+
+        // }
 
     } finally {
         //   await client.close();
