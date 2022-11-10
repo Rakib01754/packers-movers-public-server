@@ -96,7 +96,7 @@ async function run() {
             res.send(reviews);
         });
         //  deltete  reviews by id query
-        app.delete('/reviews/:id', verifyJWT, async (req, res) => {
+        app.delete('/reviews/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const deletedReview = await reviewCollection.deleteOne(query);
